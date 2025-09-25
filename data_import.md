@@ -16,6 +16,11 @@ library(tidyverse)
     ## ✖ dplyr::lag()    masks stats::lag()
     ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
+``` r
+library(readxl)
+library(haven)
+```
+
 ## Read in some data
 
 Read in the litters dataset.
@@ -191,3 +196,130 @@ Data summary
 | Pups born alive | 0 | 1.00 | 7.35 | 1.76 | 3.0 | 6.00 | 8.00 | 8.00 | 11.0 | ▁▃▂▇▁ |
 | Pups dead @ birth | 0 | 1.00 | 0.33 | 0.75 | 0.0 | 0.00 | 0.00 | 0.00 | 4.0 | ▇▂▁▁▁ |
 | Pups survive | 0 | 1.00 | 6.41 | 2.05 | 1.0 | 5.00 | 7.00 | 8.00 | 9.0 | ▁▃▂▇▇ |
+
+``` r
+litters_df = 
+    read_csv(file = "./data_import_examples/FAS_litters.csv",
+        na = c(".", "NA", ""),
+    col_types = cols(
+      Group = col_factor()
+    )
+)
+
+head(litters_df)
+```
+
+    ## # A tibble: 6 × 8
+    ##   Group `Litter Number` `GD0 weight` `GD18 weight` `GD of Birth`
+    ##   <fct> <chr>                  <dbl>         <dbl>         <dbl>
+    ## 1 Con7  #85                     19.7          34.7            20
+    ## 2 Con7  #1/2/95/2               27            42              19
+    ## 3 Con7  #5/5/3/83/3-3           26            41.4            19
+    ## 4 Con7  #5/4/2/95/2             28.5          44.1            19
+    ## 5 Con7  #4/2/95/3-3             NA            NA              20
+    ## 6 Con7  #2/2/95/3-2             NA            NA              20
+    ## # ℹ 3 more variables: `Pups born alive` <dbl>, `Pups dead @ birth` <dbl>,
+    ## #   `Pups survive` <dbl>
+
+## Import Pups data
+
+``` r
+pups_df = 
+  read_csv(
+    "data_import_examples/FAS_pups.csv",
+    skip = 3,
+    na = c("NA", ".", "")
+  )
+```
+
+    ## Rows: 313 Columns: 6
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (1): Litter Number
+    ## dbl (5): Sex, PD ears, PD eyes, PD pivot, PD walk
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+pups_df = 
+  janitor::clean_names(pups_df)
+```
+
+## Other file formats
+
+#### excel file
+
+``` r
+mlb_df = read_excel("./data_import_examples/mlb11.xlsx")
+mlb_df
+```
+
+    ## # A tibble: 30 × 12
+    ##    team        runs at_bats  hits homeruns bat_avg strikeouts stolen_bases  wins
+    ##    <chr>      <dbl>   <dbl> <dbl>    <dbl>   <dbl>      <dbl>        <dbl> <dbl>
+    ##  1 Texas Ran…   855    5659  1599      210   0.283        930          143    96
+    ##  2 Boston Re…   875    5710  1600      203   0.28        1108          102    90
+    ##  3 Detroit T…   787    5563  1540      169   0.277       1143           49    95
+    ##  4 Kansas Ci…   730    5672  1560      129   0.275       1006          153    71
+    ##  5 St. Louis…   762    5532  1513      162   0.273        978           57    90
+    ##  6 New York …   718    5600  1477      108   0.264       1085          130    77
+    ##  7 New York …   867    5518  1452      222   0.263       1138          147    97
+    ##  8 Milwaukee…   721    5447  1422      185   0.261       1083           94    96
+    ##  9 Colorado …   735    5544  1429      163   0.258       1201          118    73
+    ## 10 Houston A…   615    5598  1442       95   0.258       1164          118    56
+    ## # ℹ 20 more rows
+    ## # ℹ 3 more variables: new_onbase <dbl>, new_slug <dbl>, new_obs <dbl>
+
+if the file is very large, we can use `n_max = 20` to read several cols.
+
+#### Import LotR word counts.
+
+``` r
+fotr_df =
+  read_excel("./data_import_examples/LotR_Words.xlsx", range = "B3:D6")
+
+fotr_df
+```
+
+    ## # A tibble: 3 × 3
+    ##   Race   Female  Male
+    ##   <chr>   <dbl> <dbl>
+    ## 1 Elf      1229   971
+    ## 2 Hobbit     14  3644
+    ## 3 Man         0  1995
+
+Read in a SAS file.
+
+``` r
+pulse_df = read_sas("./data_import_examples/public_pulse_data.sas7bdat")
+pulse_df
+```
+
+    ## # A tibble: 1,087 × 7
+    ##       ID   age Sex    BDIScore_BL BDIScore_01m BDIScore_06m BDIScore_12m
+    ##    <dbl> <dbl> <chr>        <dbl>        <dbl>        <dbl>        <dbl>
+    ##  1 10003  48.0 male             7            1            2            0
+    ##  2 10015  72.5 male             6           NA           NA           NA
+    ##  3 10022  58.5 male            14            3            8           NA
+    ##  4 10026  72.7 male            20            6           18           16
+    ##  5 10035  60.4 male             4            0            1            2
+    ##  6 10050  84.7 male             2           10           12            8
+    ##  7 10078  31.3 male             4            0           NA           NA
+    ##  8 10088  56.9 male             5           NA            0            2
+    ##  9 10091  76.0 male             0            3            4            0
+    ## 10 10092  74.2 female          10            2           11            6
+    ## # ℹ 1,077 more rows
+
+``` r
+head(pulse_df, 5)
+```
+
+    ## # A tibble: 5 × 7
+    ##      ID   age Sex   BDIScore_BL BDIScore_01m BDIScore_06m BDIScore_12m
+    ##   <dbl> <dbl> <chr>       <dbl>        <dbl>        <dbl>        <dbl>
+    ## 1 10003  48.0 male            7            1            2            0
+    ## 2 10015  72.5 male            6           NA           NA           NA
+    ## 3 10022  58.5 male           14            3            8           NA
+    ## 4 10026  72.7 male           20            6           18           16
+    ## 5 10035  60.4 male            4            0            1            2
