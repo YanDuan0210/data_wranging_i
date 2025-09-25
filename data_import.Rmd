@@ -116,3 +116,18 @@ pulse_df
 head(pulse_df, 5)
 ```
 
+## Comparison with Base R
+
+
+what about `read.csv`...?
+
+```{r}
+# use read_csv
+
+litters_base = read.csv("./data_import_examples/FAS_litters.csv")
+litters_readr = read_csv("./data_import_examples/FAS_litters.csv")
+
+litters_base
+litters_readr
+```
+
