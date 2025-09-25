@@ -19,3 +19,43 @@ names(litters_df)
 
  
 ## Take a look at the data
+
+printing in the console.
+
+```{r}
+#读取整个litters数据
+
+litters_df
+```
+
+```{r}
+#取最后面的5行
+
+tail(litters_df, 5)
+```
+
+```{r}
+#取前面5行
+#(View/ view、str、 head和tail)
+
+head(litters_df, 5)
+```
+
+Sometimes skimming data is neat?
+####快速浏览数据，观察是否异常
+```{r}
+skimr::skim(litters_df)
+```
+
+## fix the missingness
+```{r}
+litters_df = 
+  read_csv("data_import_examples/FAS_litters.csv", na = c("NA", ".", ""))
+```
+
+```{r}
+#再次浏览
+
+skimr::skim(litters_df)
+```
+
