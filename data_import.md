@@ -469,3 +469,12 @@ litters_readr
     ## # ℹ 39 more rows
     ## # ℹ 3 more variables: `Pups born alive` <dbl>, `Pups dead @ birth` <dbl>,
     ## #   `Pups survive` <dbl>
+
+## Exporting data
+
+Export the mlb sub-table. 把 mlb
+数据集中的子集导出成一个文件（CSV/Excel）
+
+``` r
+write_csv(mlb_df, "./data_import_examples/mlb_subtable.csv")
+```
