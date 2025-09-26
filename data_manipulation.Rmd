@@ -71,7 +71,7 @@ select(litters_df, litter_number, everything())
 relocate(litters_df, litter_number)
 ```
 
-## `filter`
+## `filter` 详细筛选
 
 ```{r}
 filter(litters_df, gd0_weight < 22)
@@ -106,5 +106,16 @@ filter(litters_df, group == "Mod8")
 # 只保留 group 等于 "Con7" 和 "Con8" 的行
 
 filter(litters_df, group %in% c("Con7", "Mod8"))
+```
+
+## `mutate`
+change col or create new ones.
+
+```{r}
+mutate(
+  litters_df,
+  wt_gain = gd18_weight - gd0_weight,
+  group = str_to_lower(group)
+)
 ```
 
