@@ -7,3 +7,67 @@ output: github_document
 library(tidyverse)
 ```
 
+## Load in the FAS Litters Data
+
+```{r}
+litters_df = read_csv("./data_import_examples/FAS_litters.csv", na = c("NA", ".", ""))
+litters_df = janitor::clean_names(litters_df)
+```
+
+## `select`
+
+Choose some other columns and not others.
+
+```{r}
+# specify the columns you want to keep.
+
+select(litters_df, group, litter_number, gd0_weight)
+```
+
+```{r}
+# specify a range of columns. `:`是范围的意思
+
+select(litters_df, group, gd0_weight:gd_of_birth)
+```
+
+```{r}
+# Don't want any columns. Remove it
+
+select(litters_df, -litter_number)
+```
+
+Renaming columns ...
+
+`select`只改变某列，其他不显示。`rename`其他列显示并且不变
+
+```{r}
+# Type 1.
+
+select(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)
+```
+
+```{r}
+# Type 2. Use `rename()`
+# rename the variables you care about, and keep everything else.
+
+rename(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)
+```
+
+```{r}
+# 选择所有列名以 "gd" 开头的列
+
+select(litters_df, starts_with("gd"))
+```
+
+```{r}
+#把`litter_number`列放在最前面，其他列顺序不变
+
+select(litters_df, litter_number, everything())
+```
+
+```{r}
+#和上边的作用相同，只不过换成了`relocate()`
+
+relocate(litters_df, litter_number)
+```
+
