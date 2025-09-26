@@ -400,9 +400,12 @@ filter(litters_df, group %in% c("Con7", "Mod8"))
 
 ## `mutate`
 
-change col or create new ones.
+modify col or create new ones.
 
 ``` r
+#group = str_to_lower(group)：把 group 这一列里的内容全部转成小写，并重新赋值给 group
+#新建一个col:wt_gain
+
 mutate(
   litters_df,
   wt_gain = gd18_weight - gd0_weight,
@@ -425,3 +428,51 @@ mutate(
     ## 10 con8  #3/5/2/2/95           28.5        NA            20               8
     ## # ℹ 39 more rows
     ## # ℹ 3 more variables: pups_dead_birth <dbl>, pups_survive <dbl>, wt_gain <dbl>
+
+## `arrange`
+
+arrange() 是 dplyr 用来 排序 的函数。默认是升序排列。
+
+``` r
+#给pups_born_alive排序，升序
+
+arrange(litters_df, pups_born_alive)
+```
+
+    ## # A tibble: 49 × 8
+    ##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
+    ##    <chr> <chr>              <dbl>       <dbl>       <dbl>           <dbl>
+    ##  1 Con7  #85                 19.7        34.7          20               3
+    ##  2 Low7  #111                25.5        44.6          20               3
+    ##  3 Low8  #4/84               21.8        35.2          20               4
+    ##  4 Con7  #5/4/2/95/2         28.5        44.1          19               5
+    ##  5 Con8  #2/2/95/2           NA          NA            19               5
+    ##  6 Mod7  #3/82/3-2           28          45.9          20               5
+    ##  7 Mod7  #5/3/83/5-2         22.6        37            19               5
+    ##  8 Mod7  #106                21.7        37.8          20               5
+    ##  9 Con7  #5/5/3/83/3-3       26          41.4          19               6
+    ## 10 Con7  #4/2/95/3-3         NA          NA            20               6
+    ## # ℹ 39 more rows
+    ## # ℹ 2 more variables: pups_dead_birth <dbl>, pups_survive <dbl>
+
+``` r
+#在pups_born_alive升序的基础上，给gd0_weight排序，也是升序
+
+arrange(litters_df, pups_born_alive, gd0_weight)
+```
+
+    ## # A tibble: 49 × 8
+    ##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
+    ##    <chr> <chr>              <dbl>       <dbl>       <dbl>           <dbl>
+    ##  1 Con7  #85                 19.7        34.7          20               3
+    ##  2 Low7  #111                25.5        44.6          20               3
+    ##  3 Low8  #4/84               21.8        35.2          20               4
+    ##  4 Mod7  #106                21.7        37.8          20               5
+    ##  5 Mod7  #5/3/83/5-2         22.6        37            19               5
+    ##  6 Mod7  #3/82/3-2           28          45.9          20               5
+    ##  7 Con7  #5/4/2/95/2         28.5        44.1          19               5
+    ##  8 Con8  #2/2/95/2           NA          NA            19               5
+    ##  9 Low8  #99                 23.5        39            20               6
+    ## 10 Low7  #112                23.9        40.5          19               6
+    ## # ℹ 39 more rows
+    ## # ℹ 2 more variables: pups_dead_birth <dbl>, pups_survive <dbl>

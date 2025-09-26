@@ -109,13 +109,31 @@ filter(litters_df, group %in% c("Con7", "Mod8"))
 ```
 
 ## `mutate`
-change col or create new ones.
+modify col or create new ones.
 
 ```{r}
+#group = str_to_lower(group)：把 group 这一列里的内容全部转成小写，并重新赋值给 group
+#新建一个col:wt_gain
+
 mutate(
   litters_df,
   wt_gain = gd18_weight - gd0_weight,
   group = str_to_lower(group)
 )
+```
+
+## `arrange`
+arrange() 是 dplyr 用来 排序 的函数。默认是升序排列。
+
+```{r}
+#给pups_born_alive排序，升序
+
+arrange(litters_df, pups_born_alive)
+```
+
+```{r}
+#在pups_born_alive升序的基础上，给gd0_weight排序，也是升序
+
+arrange(litters_df, pups_born_alive, gd0_weight)
 ```
 
