@@ -71,3 +71,40 @@ select(litters_df, litter_number, everything())
 relocate(litters_df, litter_number)
 ```
 
+## `filter`
+
+```{r}
+filter(litters_df, gd0_weight < 22)
+filter(litters_df, gd0_weight >= 22)
+```
+
+```{r}
+#必须两个等于号
+filter(litters_df, gd_of_birth == 20)
+```
+
+```{r}
+#去除等于20的行，展示剩下的
+filter(litters_df, gd_of_birth != 20) 
+```
+or
+```{r}
+filter(litters_df, !(gd_of_birth == 20)) 
+```
+
+
+```{r}
+filter(litters_df, gd0_weight >= 22, gd_of_birth == 20)
+```
+
+```{r}
+filter(litters_df, group == "Mod8")
+```
+
+```{r}
+# `%in%`是一个集合运算符
+# 只保留 group 等于 "Con7" 和 "Con8" 的行
+
+filter(litters_df, group %in% c("Con7", "Mod8"))
+```
+
