@@ -137,3 +137,24 @@ arrange(litters_df, pups_born_alive)
 arrange(litters_df, pups_born_alive, gd0_weight)
 ```
 
+
+## `|>`
+* 快捷键是“shift+ctrl+m”
+* 嵌套函数调用
+* 都不用写前面的“litters_df,”，直接写函数的后半部分就行
+* janitor::clean_names()：括号里正常是"litters_df"，省略掉
+* `drop_na(wt_gain)`：去掉含有缺失值 (NA) 的行
+
+```{r}
+litters_df = 
+  read_csv("./data_import_examples/FAS_litters.csv", na = c("NA", ".", "")) |> 
+  janitor::clean_names() |> 
+  select(-pups_survive) |> 
+  mutate(
+    wt_gain = gd18_weight - gd0_weight,
+    group = str_to_lower(group)) |> 
+  drop_na(wt_gain) 
+
+litters_df
+```
+
